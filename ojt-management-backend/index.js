@@ -1,16 +1,25 @@
 const express = require("express");
+const cors = require("cors");
 
 const app = express();
 const PORT = 5000;
 
-// simple test route
+// enable CORS
+app.use(cors());
+
+// read JSON body
+app.use(express.json());
+
 app.get("/", function (req, res) {
   res.send("Backend is running");
 });
 
-// apply OJT route
 app.post("/apply", function (req, res) {
-  res.send("OJT application received");
+  const companyName = req.body.company;
+
+  res.json({
+    message: "Applied for OJT at " + companyName
+  });
 });
 
 app.listen(PORT, function () {

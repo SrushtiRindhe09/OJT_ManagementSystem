@@ -12,15 +12,31 @@ function StudentOJTBrowsing() {
   const [loading, setLoading] = useState(false);
 
   function applyForOJT(companyName) {
-    setLoading(true);
-    setMessage("");
+  setLoading(true);
+  setMessage("");
 
-    // Simulate backend delay
-    setTimeout(function () {
+  fetch("http://localhost:5000/apply", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      company: companyName
+    })
+  })
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
       setLoading(false);
-      setMessage("Applied for OJT at " + companyName);
-    }, 2000);
-  }
+      setMessage(data.message);
+    })
+    .catch(function () {
+      setLoading(false);
+      setMessage("Error applying for OJT");
+    });
+}
+
 
   return (
     <div>
